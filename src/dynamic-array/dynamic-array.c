@@ -54,9 +54,22 @@ void arr_push(dynamic_array_t *arr, void *item) {
   arr->length += 1;
 }
 
-void *arr_pop(dynamic_array_t *arr);
+/* last in first out; we return the value at the end of the array */
+void *arr_pop(dynamic_array_t *arr) {
+  // edgecase: array is empty; return null
+  if (arr->length == 0) {
+    return NULL; 
+  }
+  // find end of array
+  // store element
+  u8 *elem = arr->data + (arr->elem_size * (arr->length - 1));
+  // decrease arr.length with 1
+  arr->length -= 1;
+  // return element
+  return elem;
+}
 
-/* return a ponter to the element at a given idx */
+/* return a pointer to the element at a given idx */
 // what should happen if the caller passes an out of bounds index?
 void *arr_get(dynamic_array_t *arr, size_t idx) {
 
@@ -66,5 +79,5 @@ void *arr_get(dynamic_array_t *arr, size_t idx) {
   return elem;
 }
 
-size_t arr_getlength(dynamic_array_t *arr);
+size_t arr_getlength(dynamic_array_t *arr) { return arr->length; }
 
