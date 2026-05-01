@@ -55,6 +55,16 @@ void arr_push(dynamic_array_t *arr, void *item) {
 }
 
 void *arr_pop(dynamic_array_t *arr);
-void *arr_get(dynamic_array_t *arr, size_t idx);
+
+/* return a ponter to the element at a given idx */
+// what should happen if the caller passes an out of bounds index?
+void *arr_get(dynamic_array_t *arr, size_t idx) {
+
+  assert(idx < arr->length && "arr_get: index out of bounds");
+  u8 *elem = arr->data + (arr->elem_size * idx);
+
+  return elem;
+}
+
 size_t arr_getlength(dynamic_array_t *arr);
 
