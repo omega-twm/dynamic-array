@@ -1,13 +1,13 @@
-# my-arena-libs
+# dynamic_array
 
-A small arena-backed collection library with a dynamic array example.
+A small arena-backed dynamic array with example.
 
 ## Structure
 
 - `arena/` — single-header arena allocator library
 - `dynamic_array/` — single-header dynamic array library
 - `common/` — shared type aliases and helper definitions
-- `examples/` — example programs, including `array_example.c`
+- `examples/` — example programs
 - `tests/` — simple test harness
 
 ## Build
