@@ -1,0 +1,11 @@
+# Build artifacts
+program
+*.o
+*.out
+*.exe
+
+# Backup files
+*~
+
+# IDE/editor artifacts
+.vscode/
