@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "dynamic-array.h"
-#include "arena/arena.h"
 
 struct dynamic_array {
   u8 *data; // byte pointer so we can do pointer arhitmatic to find the adress
@@ -13,7 +12,8 @@ struct dynamic_array {
   arena_t *arena;
 };
 
-dynamic_array_t *arr_create(arena_t *arena, size_t elem_size, size_t initial_capacity) {
+dynamic_array_t *arr_create(arena_t *arena, size_t elem_size,
+                            size_t initial_capacity) {
   dynamic_array_t *arr = allocate_struct(arena, dynamic_array_t);
 
   arr->elem_size = elem_size;
@@ -45,7 +45,7 @@ void arr_push(dynamic_array_t *arr, void *item) {
     arr->data = new_data;
     arr->capacity = new_capacity;
   }
-  
+
   // is it fifo? then we add the element to the end of the array
   // find end of array; how do we do this? arr.elem_size * arr.length;
   u8 *slot = arr->data + (arr->elem_size * arr->length);
@@ -58,7 +58,7 @@ void arr_push(dynamic_array_t *arr, void *item) {
 void *arr_pop(dynamic_array_t *arr) {
   // edgecase: array is empty; return null
   if (arr->length == 0) {
-    return NULL; 
+    return NULL;
   }
   // find end of array
   // store element
@@ -80,4 +80,3 @@ void *arr_get(dynamic_array_t *arr, size_t idx) {
 }
 
 size_t arr_getlength(dynamic_array_t *arr) { return arr->length; }
-
