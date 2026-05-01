@@ -1,24 +1,42 @@
 #define ARENA_IMPLEMENTATION
-#define DYNAMIC_ARRAY_IMPLEMENTATION
-#include <assert.h>
-#include <stdio.h>
-#include "common/common.h"
 #include "arena/arena.h"
+
+#define DYNAMIC_ARRAY_IMPLEMENTATION
 #include "dynamic_array/dynamic_array.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
+void print_int(void *item) {
+    printf("%d\n", *(int *)item);
+}
+
+int int_cmp(const void *a, const void *b) {
+    int ia = *(const int *)a;
+    int ib = *(const int *)b;
+    if (ia < ib) return -1;
+    if (ia > ib) return  1;
+    return 0;
+}
+
 int main(void) {
-    arena_t arena = arena_make(1024);
-    dynamic_array_t *arr = dynarr_create(&arena, sizeof(i32), 2);
+    arena_t arena = arena_make(1024 * 1024);
+    dynamic_array_t *arr = dynarr_create(&arena, sizeof(int), 4);
 
-    i32 value = 42;
-    dynarr_push(arr, &value);
-    assert(dynarr_getlength(arr) == 1);
-    assert(*(i32 *)dynarr_get(arr, 0) == 42);
+    printf("Enter numbers (Ctrl-D to stop):\n");
+    int val;
+    while (scanf("%d", &val) == 1) {
+        dynarr_push(arr, &val);
+    }
 
-    dynarr_pop(arr);
-    assert(dynarr_getlength(arr) == 0);
+    printf("\nUnsorted (%zu items):\n", dynarr_getlength(arr));
+    dynarr_print(arr, print_int);
+
+    dynarr_sort(arr, int_cmp);
+
+    printf("\nSorted:\n");
+    dynarr_print(arr, print_int);
 
     arena_destroy(&arena);
-    printf("Basic dynamic array test passed.\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
