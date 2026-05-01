@@ -1,8 +1,16 @@
 #pragma once
 
+#include "common.h"
 #include <stdint.h>
 #include <stdlib.h>
-#include "common.h"
+
+#define allocate_array(arena, type, count)                                     \
+  (type *)arena_allocate(arena, sizeof(type) * count)
+
+#define allocate_struct(arena, type) allocate_array(arena, type, 1)
+
+#define allocate_struct_zero(arena, type)                                      \
+  (type *)arena_allocate_zero(arena, sizeof(type))
 
 /*!
  * Type of arena. 'arena_t' is an alias for 'struct arena'
@@ -57,14 +65,3 @@ arena_save_t arena_save(arena_t *a);
  * @param save: arena save state
  */
 void arena_restore(arena_save_t save);
-
-
-#define allocate_array(arena, type, count) \
-  (type *)arena_allocate(arena, sizeof(type) * count)
-
-#define allocate_struct(arena, type) \
-  allocate_array(arena, type, 1)
-
-#define allocate_struct_zero(arena, type ) \
-  (type *)arena_allocate_zero(arena, sizeof(type))
-
